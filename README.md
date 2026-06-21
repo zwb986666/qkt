@@ -1,7 +1,7 @@
 孩子们，欢迎各位来到骑空团！  
 协会编号：1167  
 ●⭐重要⭐建议把群ID改成游戏ID以防误杀  
-●协会网站qkt.kiramoe.com  
+●协会网站https://qkt.kiramoe.com或者https://zwb986666.github.io/qkt/  
 ●oopz频道  
 https://oopz.cn/i/thXPJ1  
 ●协会宣传视频【一起编织，未曾谱写的碧空物语-哔哩哔哩】 https://b23.tv/oTbsImK  
