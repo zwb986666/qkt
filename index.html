@@ -32,7 +32,7 @@
         .hero-bg {
             position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
-            background: url('images/e0ae4cfa8177846cbf4b6f954bdee5f0.png') center center / cover no-repeat;
+            background: url('images/20260520游星岛合照.png') center center / cover no-repeat;
             filter: blur(8px) brightness(0.3);
             z-index: -1; transform: scale(1.1);
         }
@@ -197,6 +197,18 @@
             background: #f6d365; transform: scale(1.3);
             box-shadow: 0 0 20px rgba(246, 211, 101, 0.4);
         }
+        .gallery-filename {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
+            font-family: 'Consolas', 'Courier New', monospace;
+            letter-spacing: 0.5px;
+            transition: opacity 0.4s ease;
+        }
+        .gallery-filename span {
+            color: #c9b1ff;
+        }
         .join-section {
             background: linear-gradient(180deg, rgba(20,15,40,0.6) 0%, rgba(10,10,30,0.95) 100%);
             padding-bottom: 100px;
@@ -279,7 +291,7 @@
                 <p>萌新热烈欢迎！有问题大胆问，有需求尽管开口。社交是双向的，这里没有孤立，只有温暖。</p>
             </div>
             <div class="about-image">
-                <img src="images/35ccc9e98c22b82319e6ca3dd7cdc36b.jpeg" alt="骑空团风采">
+                <img src="images/骑空团圣诞节纪念.jpeg" alt="骑空团风采">
             </div>
         </div>
     </section>
@@ -317,13 +329,14 @@
         <h2 class="section-title">精彩瞬间</h2>
         <div class="gallery-carousel">
             <div class="gallery-track" id="galleryTrack">
-                <div class="gallery-slide"><img src="images/e0ae4cfa8177846cbf4b6f954bdee5f0.png" alt="骑空团 1"></div>
-                <div class="gallery-slide"><img src="images/e7e894ce9667fd5fd78f14463ef264cd.png" alt="骑空团 2"></div>
-                <div class="gallery-slide"><img src="images/b6c515d34e6d0266a22c908497d2ac28.jpeg" alt="骑空团 3"></div>
-                <div class="gallery-slide"><img src="images/35ccc9e98c22b82319e6ca3dd7cdc36b.jpeg" alt="骑空团 4"></div>
+                <div class="gallery-slide"><img src="images/骑空团圣诞节纪念.jpeg" alt="骑空团 1"></div>
+                <div class="gallery-slide"><img src="images/骑空团小红人.jpeg" alt="骑空团 2"></div>
+                <div class="gallery-slide"><img src="images/20260520游星岛合照.png" alt="骑空团 3"></div>
+                <div class="gallery-slide"><img src="images/20260520纪念合照.png" alt="骑空团 4"></div>
             </div>
         </div>
         <div class="gallery-dots" id="galleryDots"></div>
+        <div class="gallery-filename" id="galleryFilename">📁 <span id="filenameText">骑空团圣诞节纪念.jpeg</span></div>
         <div class="gallery-controls">
             <button class="gallery-btn" onclick="prevSlide()">&#x25C0;</button>
             <button class="gallery-btn" onclick="nextSlide()">&#x25B6;</button>
@@ -409,27 +422,60 @@
         }
         document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
         animateParticles();
+
+        // ===== 轮播逻辑（已优化：手动切换后重置计时器） =====
         let currentSlide = 0;
+        let autoPlayTimeout = null;
         const track = document.getElementById('galleryTrack');
         const slides = track.querySelectorAll('.gallery-slide');
         const dotsContainer = document.getElementById('galleryDots');
+        const carousel = document.querySelector('.gallery-carousel');
+        const filenameText = document.getElementById('filenameText');
+
+        // 图片文件名列表（与图片顺序一一对应，展示时会自动去掉扩展名）
+        const filenames = [
+            '骑空团圣诞节纪念.jpeg',
+            '骑空团小红人.jpeg',
+            '20260520游星岛合照.png',
+            '20260520纪念合照.png'
+        ];
+
+        // 去掉文件扩展名，用于展示
+        function getDisplayName(filename) {
+            const dotIndex = filename.lastIndexOf('.');
+            return dotIndex > 0 ? filename.substring(0, dotIndex) : filename;
+        }
+
         slides.forEach((_, i) => {
             const dot = document.createElement('button');
             dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
             dot.onclick = () => goToSlide(i);
             dotsContainer.appendChild(dot);
         });
+
+        function startAutoPlay() {
+            if (autoPlayTimeout) clearTimeout(autoPlayTimeout);
+            autoPlayTimeout = setTimeout(nextSlide, 4000);
+        }
+
         function goToSlide(index) {
             currentSlide = index;
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
             document.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+            // 更新文件名显示（去掉扩展名）
+            if (filenameText && filenames[currentSlide]) {
+                filenameText.textContent = getDisplayName(filenames[currentSlide]);
+            }
+            startAutoPlay(); // 核心优化：手动切换后彻底重置倒计时，防止快速连跳
         }
         function nextSlide() { goToSlide((currentSlide + 1) % slides.length); }
         function prevSlide() { goToSlide((currentSlide - 1 + slides.length) % slides.length); }
-        let autoPlay = setInterval(nextSlide, 4000);
-        document.querySelector('.gallery-carousel').addEventListener('mouseenter', () => clearInterval(autoPlay));
-        document.querySelector('.gallery-carousel').addEventListener('mouseleave', () => { autoPlay = setInterval(nextSlide, 4000); });
+
+        startAutoPlay();
+        carousel.addEventListener('mouseenter', () => clearTimeout(autoPlayTimeout));
+        carousel.addEventListener('mouseleave', startAutoPlay);
         document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') prevSlide(); if (e.key === 'ArrowRight') nextSlide(); });
+
         const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
