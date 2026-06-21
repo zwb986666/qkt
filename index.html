@@ -895,7 +895,10 @@
         carousel.addEventListener('mouseleave', startAutoPlay);
         document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') prevSlide(); if (e.key === 'ArrowRight') nextSlide(); });
         // ===== 🆕 团员风采墙（内嵌数据） =====
-        const membersData = [{"name": "律", "role": "骑空士", "class": "神盾骑士", "slogan": "一体双生", "image": "团员风采/律-骑空士-神盾骑士-一体双生/律.png"}, {"name": "村姑", "role": "会长", "class": "神盾骑士", "slogan": "背负世界之恶！", "image": "团员风采/村姑-会长-神盾骑士-背负世界之恶！/78260069ec940568fb1dec134d2b40eb.jpeg"}, {"name": "蒙面地雷女", "role": "副会长", "class": "弓箭手", "slogan": "你在和谁玩游戏？", "image": "团员风采/蒙面地雷女-副会长-弓箭手-你在和谁玩游戏？/Image_1774875479666_864.jpg"}, {"name": "魚", "role": "吉祥物", "class": "青岚骑士", "slogan": "zzz", "image": "团员风采/魚-吉祥物-青岚骑士-zzz/.png"}];
+        const membersData = [{"name": "律", "role": "骑空士", "class": "神盾骑士", "slogan": "一体双生", "image": "团员风采/律-骑空士-神盾骑士-一体双生/律.png"}, 
+        {"name": "村姑", "role": "会长", "class": "神盾骑士", "slogan": "背负世界之恶！", "image": "团员风采/村姑-会长-神盾骑士-背负世界之恶！/78260069ec940568fb1dec134d2b40eb.jpeg"}, 
+        {"name": "蒙面地雷女", "role": "副会长", "class": "弓箭手", "slogan": "你在和谁玩游戏？", "image": "团员风采/蒙面地雷女-副会长-弓箭手-你在和谁玩游戏/Image_1774875479666_864.jpg"},
+        {"name": "魚", "role": "吉祥物", "class": "青岚骑士", "slogan": "zzz", "image": "团员风采/魚-吉祥物-青岚骑士-zzz/1.png"}];
         const membersGrid = document.getElementById('membersGrid');
         membersData.forEach(m => {
             const card = document.createElement('div');
